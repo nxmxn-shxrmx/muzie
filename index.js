@@ -138,11 +138,11 @@ Array.from(document.getElementsByClassName("playListPlay")).forEach(
             masterPlay.classList.remove("bi-play-fill");
             masterPlay.classList.add("bi-pause-fill");
             wave.classList.add("active2");
-            music.addEventListener("ended", () => {
-                masterPlay.classList.add("bi-play-fill");
-                masterPlay.classList.remove("bi-pause-fill");
-                wave.classList.remove("active2");
-            });
+            // music.addEventListener("ended", () => {
+            //     masterPlay.classList.add("bi-play-fill");
+            //     masterPlay.classList.remove("bi-pause-fill");
+            //     wave.classList.remove("active2");
+            // });
 
             makeAllBackgrounds();
             Array.from(document.getElementsByClassName("songItem"))[
@@ -187,9 +187,28 @@ seek.addEventListener("change", () => {
 });
 
 music.addEventListener("ended", () => {
-    masterPlay.classList.add("bi-play-fill");
-    masterPlay.classList.remove("bi-pause-fill");
-    wave.classList.remove("active2");
+
+    masterPlay.classList.add("bi-pause-fill");
+    wave.classList.add("active2");
+    index++;
+    music.play();
+    music.src="audio/"+index+".mp3";
+    poster_master_play.src="img"+index+".png";
+    music.play();
+    let song_title = songs.filter((ele) => {
+        return ele.id == index;
+    });
+    song_title.forEach((ele) => {
+        let {
+            songName
+        } = ele;
+        title.innerHTML = songName;
+    });
+
+    makeAllBackgrounds();
+    Array.from(document.getElementsByClassName("songItem"))[
+        index - 1
+    ].style.background = "rgb(105,105,170,.1)";
 });
 
 let vol_icon = document.getElementById("vol_icon");
@@ -245,6 +264,9 @@ back.addEventListener('click', () => {
     Array.from(document.getElementsByClassName("songItem"))[
         index - 1
     ].style.background = "rgb(105,105,170,.1)";
+    makeAllPlays();
+    document.getElementsByClassName('playlistPlay')[index-1].classList.remove("bi-play-fill");
+    document.getElementsByClassName('playlistPlay')[index-1].classList.add("bi-pause-fill");
 
 })
 next.addEventListener('click', () => {
